@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'DMSans-Regular';
+  src: url('../../fonts/DMSans-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'DMSans-Med';
+  src: url('../../fonts/DMSans-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'DMSans-Bold';
+  src: url('../../fonts/DMSans-Bold.woff') format('woff');
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  /* display: block; */
+  min-height: 100vh;
+  font-family: 'DMSans-Regular', sans-serif;
+}
+
+
