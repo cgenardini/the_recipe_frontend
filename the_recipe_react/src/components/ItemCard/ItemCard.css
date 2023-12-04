@@ -94,3 +94,20 @@
     left: 20px;
     bottom: 5px; */
 }
+
+@media screen and (max-width: 580px) {
+   .card {
+    max-width: 320px;
+   }
+   .card__footer {
+    width: 320px;
+   }
+
+   .card__image{
+    width: 320px;
+   }
+
+   .card__description{
+    width: 274px;
+   }
+}

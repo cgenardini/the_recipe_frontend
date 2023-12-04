@@ -4,10 +4,14 @@ import CardsContainer from "../CardsContainer/CardsContainer";
 
 function Main({ handleShowMore }) {
   return (
-    <section className="main">
-      <CardsContainer handleShowMore={handleShowMore} />
-      <About />
-    </section>
+    <div className="main">
+      <section>
+        <CardsContainer handleShowMore={handleShowMore} />
+      </section>
+      <section>
+        <About />
+      </section>
+    </div>
   );
 }
 

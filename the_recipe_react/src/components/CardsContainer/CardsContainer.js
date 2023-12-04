@@ -17,7 +17,7 @@ function CardsContainer({ handleShowMore }) {
     <section className="cards-container">
       {searchActive ? (
         <>
-          <h1 className="cards-container__header">Search Results</h1>
+          <h2 className="cards-container__header">Search Results</h2>
           {searchSuccessful ? (
             <>
               <CardsGallery cards={displayedCards} galleryName="home" />
