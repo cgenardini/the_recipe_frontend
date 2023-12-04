@@ -68,6 +68,7 @@ function App() {
     setIsLoading(true);
     getRecipe(encodedQuery)
       .then((data) => {
+        console.log(data.results);
         setCurrentSearchCards(data.results);
         setSearchActive(true);
         setSearchSuccessful(data.results.length > 0);
