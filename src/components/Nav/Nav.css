@@ -42,13 +42,7 @@
 
 .nav__login {
     margin: 0 18px 0 0;
-    /* cursor: pointer;
-    background: none;
-    border: none;
-    font-family: 'DMSans-Med';
-    color: #eecfc6;
-    font-size: 18px;
-    outline: none; */
+  
 }
 
 .nav__login:hover {
@@ -60,13 +54,7 @@
 
 .nav__signup {
     margin: 0 ;
-    /* cursor: pointer;
-    background: none;
-    border: none;
-    font-family: 'DMSans-Med';
-    color: #eecfc6;
-    font-size: 18px;
-    outline: none; */
+   
 }
 
 

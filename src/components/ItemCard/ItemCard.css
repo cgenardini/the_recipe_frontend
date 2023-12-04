@@ -58,9 +58,6 @@
 
 .card__title {
     margin: 25px 0 10px;
-    /* text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden; */
     max-width: 245px;
     font-size: 20px;
     margin-left: 20px;
