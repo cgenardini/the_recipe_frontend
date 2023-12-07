@@ -1,0 +1,56 @@
+.cards-container{
+    margin: 0 100px;
+    color: #ab773c;
+}
+
+.cards-container__header {
+    margin: 0 0 30px 8px;
+padding-top: 60px;
+text-align: start;
+font-size: 25px;
+
+}
+
+.cards-container__nothing-found {
+font-size: 20px;
+text-align: start;
+margin: 0 0 100px 9px;
+}
+
+.cards-container__show-more{
+    height: 60px;
+    border-radius: 20px;
+    width: 150px;
+    color: #ab773c;
+    font-family: 'DMSans-Bold';
+    font-size: 20px;
+    border: 2px solid #ab773c;
+    background-color: #eecfc6;
+    cursor: pointer;
+    padding: 0;
+}
+
+.cards-container__show-more:hover {
+    background-color: #ab773c;
+    color: #eecfc6;
+}
+
+
+
+@media screen and (max-width: 580px) {
+
+    .cards-container{
+text-align: center; 
+margin: 0;
+    }
+
+    .cards-container__header{
+        margin: 0;
+        text-align: center;
+    }
+
+    .cards-container__nothing-found {
+        text-align: center;
+        margin: 20px 0 0; 
+    }
+}

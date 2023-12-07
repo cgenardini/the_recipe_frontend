@@ -1,0 +1,105 @@
+.nav{
+    min-height: 80px;
+    display: flex;
+    border-bottom: 1px solid #eecfc6 ;
+}
+
+.nav__logo{
+    height: 24px;
+    max-width: 200px;
+    margin: 30px 0 26px 70px;
+    cursor: pointer;
+}
+
+.nav__logo:hover {
+    opacity: 60%;
+}
+
+.nav__links {
+    display: flex;
+    margin: 30px 50px 26px auto;
+   color: #eecfc6;
+   font-family: 'DMSans-Med';
+   font-size: 18px;
+}
+
+.nav__button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'DMSans-Med';
+    color: #eecfc6;
+    font-size: 18px;
+    outline: none;
+    display: flex;
+    align-items: start;
+   
+}
+
+.nav__button:hover {
+    opacity: 60%;
+}
+
+.nav__login {
+    margin: 0 18px 0 0;
+  
+}
+
+.nav__login:hover {
+    opacity: 60%;
+}
+
+
+
+
+.nav__signup {
+    margin: 0 ;
+   
+}
+
+
+.nav__signout {
+    padding: 0;
+    margin-right: 18px;
+}
+
+.nav__link {
+    text-decoration: none;
+    color: #eecfc6;
+    text-align: center;
+}
+
+.nav__link:hover {
+    opacity: 60%;
+}
+
+.nav__home {
+   margin-right: 18px;
+}
+
+
+
+.nav__button_profile-header{
+    color: #ab773c
+}
+
+@media screen and (max-width: 580px) {
+    .nav {
+flex-direction: column;
+
+align-items: center;
+    }
+
+    .nav__logo{
+        margin: 30px 0 0;
+    }
+
+    .nav__links {
+        margin: 15px 0;
+        font-size: 14px;
+    }
+
+    .nav__button {
+        font-size: 14px;
+    }
+}

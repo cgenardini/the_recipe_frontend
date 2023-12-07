@@ -1,0 +1,58 @@
+.recipe-button {
+border: none;
+border-radius: 8px;
+position: absolute;
+cursor: pointer;
+background-color: #eecfc6;
+background-image: url(../../images/bookmark.svg);
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+.recipe-button:hover {
+   
+    background-color: #ab773c;
+    background-image: url(../../images/bookmark-hover.svg);
+}
+
+.recipe-button_type_popup-item {
+height: 40px;
+width: 40px;
+background-image: url(../../images/bookmark.svg);
+background-repeat: no-repeat;
+background-size: cover;
+top: 390px;
+right: 25px;
+}
+
+.recipe-button_type_popup-item:hover {
+    background-image: url(../../images/bookmark-hover.svg);
+}
+
+.recipe-button_type_card {
+    height: 30px;
+    width: 30px;
+    top: 270px;
+    right: 30px
+}
+
+.recipe-button_type_card-delete{
+    height: 30px;
+    width: 30px;
+    top: 270px;
+    right: 30px;
+    background-image: url(../../images/trash.svg);
+}
+
+.recipe-button_type_card-delete:hover {
+    background-image: url(../../images//trash-hover.svg);
+}
+
+@media screen and (max-width: 580px) {
+    .recipe-button_type_popup-item {
+        top: 250px;
+        height: 35px;
+        width: 35px;
+    }
+
+}
