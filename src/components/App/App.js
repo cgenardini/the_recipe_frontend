@@ -142,6 +142,7 @@ function App() {
   const handleLogin = () => {
     handleCheckToken();
     handleClosePopup();
+    handleSetUserCards();
     history.push("/profile");
   };
 

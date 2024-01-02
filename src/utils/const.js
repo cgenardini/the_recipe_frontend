@@ -62,4 +62,7 @@ export const errors = {
   },
 };
 
-export const baseUrl = "http://localhost:3001";
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://therecipe.make.com.ar"
+    : "http://localhost:3001";
