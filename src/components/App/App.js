@@ -22,11 +22,20 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { CurrentSearchCards } from "../../contexts/CurrentSearchCards";
 import { SelectedCardContext } from "../../contexts/SelectedCardContext";
 
+import {
+  register,
+  storeItem,
+  checkToken,
+  saveItem,
+  unsaveItem,
+  getUserRecipes,
+} from "../../utils/databaseApi";
+
 import { errors } from "../../utils/const";
 
 function App() {
   const [activePopup, setActivePopup] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     name: "Cassandra G",
   });
@@ -37,6 +46,7 @@ function App() {
   const [searchActive, setSearchActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [searchSuccessful, setSearchSuccessful] = useState(false);
+  const [userCards, setUserCards] = useState([]);
 
   const history = useHistory();
 
@@ -68,7 +78,7 @@ function App() {
     setIsLoading(true);
     getRecipe(encodedQuery)
       .then((data) => {
-        console.log(data.results);
+        handleStoreRecipeCards(data.results);
         setCurrentSearchCards(data.results);
         setSearchActive(true);
         setSearchSuccessful(data.results.length > 0);
@@ -82,15 +92,91 @@ function App() {
       });
   };
 
-  const handleRegister = ({ email, password, name }) => {
-    console.log(email, password, name);
-    handleClosePopup();
+  const handleStoreRecipeCards = (cards) => {
+    cards.forEach((card) => {
+      const { title, image, id, summary, sourceName, analyzedInstructions } =
+        card;
+
+      storeItem({ title, image, id, summary, sourceName, analyzedInstructions })
+        .then((data) => {
+          return data;
+        })
+        .catch(console.error);
+    });
   };
 
-  const handleLogin = ({ email, password }) => {
-    console.log(email, password);
-    handleClosePopup();
+  const handleSetUserCards = () => {
+    getUserRecipes().then((recipes) => {
+      if (!recipes) {
+        return;
+      }
+      setUserCards(recipes);
+    });
   };
+
+  const handleSaveRecipeCard = (id) => {
+    saveItem(id)
+      .then(() => {
+        handleSetUserCards();
+      })
+      .catch(console.error);
+  };
+
+  const handleRemoveRecipeCard = (id) => {
+    unsaveItem(id)
+      .then(() => {
+        handleSetUserCards();
+        handleClosePopup();
+      })
+      .catch(console.error);
+  };
+
+  const handleRegister = ({ email, password, name }) => {
+    register({ email, password, name })
+      .then(() => {
+        setActivePopup("login");
+      })
+      .catch(console.error);
+  };
+
+  const handleLogin = () => {
+    handleCheckToken();
+    handleClosePopup();
+    history.push("/profile");
+  };
+
+  const handleSignOut = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setCurrentUser({});
+    history.push("/");
+  };
+
+  const handleCheckToken = () => {
+    if (localStorage.getItem("token")) {
+      const jwt = localStorage.getItem("token");
+
+      checkToken(jwt)
+        .then((data) => {
+          setCurrentUser(data.data);
+          setIsLoggedIn(true);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      handleSetUserCards();
+    }
+  }, []);
+
+  useEffect(() => {
+    handleCheckToken();
+  }, []);
 
   const handleShowMore = (e) => {
     e.preventDefault();
@@ -115,7 +201,14 @@ function App() {
 
   return (
     <div className="App" onClick={handleClickOutsideClose}>
-      <SelectedCardContext.Provider value={{ handleCardPreview, selectedCard }}>
+      <SelectedCardContext.Provider
+        value={{
+          handleCardPreview,
+          selectedCard,
+          handleSaveRecipeCard,
+          handleRemoveRecipeCard,
+        }}
+      >
         <CurrentSearchCards.Provider
           value={{
             displayedCards,
@@ -125,13 +218,16 @@ function App() {
             initialCardIndex,
           }}
         >
-          <CurrentUserContext.Provider value={{ isLoggedIn, currentUser }}>
+          <CurrentUserContext.Provider
+            value={{ isLoggedIn, currentUser, userCards }}
+          >
             <CurrentPopup.Provider value={{ activePopup, setActivePopup }}>
               <Switch>
                 <Route path="/500">
                   <Header
                     onClickLogin={handleOpenLogin}
                     onClickSignUp={handleOpenRegister}
+                    handleSignOut={handleSignOut}
                   >
                     <ErrorPage error={errors.server}></ErrorPage>
                   </Header>
@@ -140,6 +236,7 @@ function App() {
                   <Header
                     onClickLogin={handleOpenLogin}
                     onClickSignUp={handleOpenRegister}
+                    handleSignOut={handleSignOut}
                   >
                     <ErrorPage error={errors.forbidden}></ErrorPage>
                   </Header>
@@ -148,13 +245,14 @@ function App() {
                   <Header
                     onClickLogin={handleOpenLogin}
                     onClickSignUp={handleOpenRegister}
+                    handleSignOut={handleSignOut}
                   >
                     <ErrorPage error={errors.notFound}></ErrorPage>
                   </Header>
                 </Route>
 
                 <ProtectedRoute path="/profile">
-                  <ProfileHeader />
+                  <ProfileHeader handleSignOut={handleSignOut} />
                   <Profile />
                 </ProtectedRoute>
 
@@ -162,6 +260,7 @@ function App() {
                   <Header
                     onClickLogin={handleOpenLogin}
                     onClickSignUp={handleOpenRegister}
+                    handleSignOut={handleSignOut}
                   >
                     <h1 className="header__header">What's cooking?</h1>
                     <SearchForm handleRecipeSearch={handleRecipeSearch} />

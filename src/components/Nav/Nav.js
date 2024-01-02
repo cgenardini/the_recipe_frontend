@@ -5,7 +5,7 @@ import "./Nav.css";
 import logo from "../../images/logo.png";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Nav({ onClickLogin, onClickSignUp, navName }) {
+function Nav({ onClickLogin, onClickSignUp, navName, handleSignOut }) {
   const { isLoggedIn } = React.useContext(CurrentUserContext);
 
   return (
@@ -20,6 +20,7 @@ function Nav({ onClickLogin, onClickSignUp, navName }) {
             <button
               type="button"
               className={`nav__signout nav__button nav__button_${navName}`}
+              onClick={handleSignOut}
             >
               Sign Out
             </button>
