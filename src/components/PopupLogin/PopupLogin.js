@@ -2,8 +2,11 @@ import React from "react";
 import "./PopupLogin.css";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import "../PopupWithForm/PopupWithForm.css";
+import { authorize } from "../../utils/databaseApi";
+import { useHistory } from "react-router-dom";
 
 function PopupLogin({ buttonText, onClose, handleLogin }) {
+  const history = useHistory();
   const [values, setValues] = React.useState({
     email: "",
     password: "",
@@ -16,7 +19,20 @@ function PopupLogin({ buttonText, onClose, handleLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleLogin(values);
+    const { email, password } = values;
+
+    if (!email || !password) {
+      return;
+    }
+    authorize({ email, password })
+      .then(() => {
+        handleLogin();
+        history.push("/profile");
+        setValues({ email: "", password: "" });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const handleChange = (e) => {

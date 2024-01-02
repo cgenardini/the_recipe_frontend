@@ -1,10 +1,11 @@
 import "./RecipeButton.css";
 
-function RecipeButton({ buttonName }) {
+function RecipeButton({ buttonName, onClick }) {
   return (
     <button
       className={`recipe-button recipe-button_type_${buttonName}`}
       type="button"
+      onClick={onClick}
     ></button>
   );
 }

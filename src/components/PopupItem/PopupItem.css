@@ -27,7 +27,9 @@
 
    .popup-item__title{
     font-size: 30px;
-    margin: 20px 0;
+    margin: 20px 0 20px 30px;
+    max-width: 380px;
+    text-align: start;
    }
 
    .popup-item__description {

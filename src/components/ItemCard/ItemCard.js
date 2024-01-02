@@ -1,5 +1,5 @@
 import "./ItemCard.css";
-import React from "react";
+import React, { useEffect } from "react";
 import RecipeButton from "../RecipeButton/RecipeButton";
 import { SelectedCardContext } from "../../contexts/SelectedCardContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
@@ -10,17 +10,31 @@ function ItemCard({ item, galleryName }) {
 
   const summaryString = summary.replaceAll(regex, "");
 
-  const { handleCardPreview } = React.useContext(SelectedCardContext);
+  const { handleCardPreview, handleSaveRecipeCard, handleRemoveRecipeCard } =
+    React.useContext(SelectedCardContext);
   const { isLoggedIn } = React.useContext(CurrentUserContext);
+  const [isClicked, setIsClicked] = React.useState(false);
 
   const selectCard = (e) => {
     e.preventDefault();
     handleCardPreview(item);
   };
 
-  const profileTempClick = (e) => {
+  const handleSaveAndDelete = (e) => {
     e.preventDefault();
-    console.log(item);
+    if (isClicked === false) {
+      setIsClicked(true);
+      handleSaveRecipeCard(item.id);
+    }
+    if (isClicked === true) {
+      setIsClicked(false);
+      handleRemoveRecipeCard(item.id);
+    }
+  };
+
+  const handleDeleteFromProfile = (e) => {
+    e.preventDefault();
+    handleRemoveRecipeCard(item.recipeId);
   };
 
   return (
@@ -28,7 +42,7 @@ function ItemCard({ item, galleryName }) {
       <div className="card__image-container">
         <img className="card__image" src={item.image} alt={item.title} />
         {galleryName === "profile" ? (
-          <div className="card__image-overlay" onClick={profileTempClick}></div>
+          <div className="card__image-overlay" onClick={selectCard}></div>
         ) : (
           <div className="card__image-overlay" onClick={selectCard}></div>
         )}
@@ -40,10 +54,18 @@ function ItemCard({ item, galleryName }) {
         <h3 className="card__source">{item.sourceName}</h3>
       </div>
       {isLoggedIn && galleryName === "home" && (
-        <RecipeButton buttonName="card" />
+        <RecipeButton
+          buttonName={isClicked ? "card-delete" : "card"}
+          onClick={handleSaveAndDelete}
+        />
       )}
 
-      {galleryName === "profile" && <RecipeButton buttonName="card-delete" />}
+      {galleryName === "profile" && (
+        <RecipeButton
+          buttonName={isClicked ? "card-delete_clicked" : "card-delete"}
+          onClick={handleDeleteFromProfile}
+        />
+      )}
     </li>
   );
 }

@@ -61,3 +61,5 @@ export const errors = {
     message: `Page Not Found: We're sorry, but the page you are looking for doesn't exist or may have been moved. Please check the URL for any errors and try again. Alternatively, you can return to our homepage.`,
   },
 };
+
+export const baseUrl = "http://localhost:3001";
