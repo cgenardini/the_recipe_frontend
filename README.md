@@ -14,4 +14,4 @@ Implementing a mixer of provided UI kit and figma design for news project. Logo 
 
 # Deploy
 
-https://cgenardini.github.io/the_recipe_frontend/
+https://therecipe.make.com.ar/
