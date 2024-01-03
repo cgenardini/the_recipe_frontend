@@ -1,5 +1,5 @@
 import "./ItemCard.css";
-import React, { useEffect } from "react";
+import React from "react";
 import RecipeButton from "../RecipeButton/RecipeButton";
 import { SelectedCardContext } from "../../contexts/SelectedCardContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
