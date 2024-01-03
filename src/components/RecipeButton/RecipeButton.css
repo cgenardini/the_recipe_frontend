@@ -1,0 +1,95 @@
+/* button min */
+
+.recipe-button {
+border: none;
+border-radius: 8px;
+position: absolute;
+cursor: pointer;
+
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+
+/*bookmark popup*/
+
+.recipe-button_type_popup-item {
+height: 40px;
+width: 40px;
+background-color: #eecfc6;
+background-image: url(../../images/bookmark.svg);
+background-repeat: no-repeat;
+background-size: cover;
+top: 390px;
+right: 25px;
+}
+
+.recipe-button_type_popup-item:hover {
+    background-color: #ab773c;
+    background-image: url(../../images/bookmark-hover.svg);
+}
+
+
+
+
+/*bookmark gallery*/
+.recipe-button_type_card {
+    height: 30px;
+    width: 30px;
+    top: 270px;
+    right: 30px;
+    background-color: #eecfc6;
+    background-image: url(../../images/bookmark.svg);
+
+}
+
+.recipe-button_type_card:hover {
+    background-color: #ab773c;
+    background-image: url(../../images/bookmark-hover.svg);
+}
+
+
+/*delete gallery*/
+
+
+.recipe-button_type_card-delete{
+    height: 30px;
+    width: 30px;
+    top: 270px;
+    right: 30px;
+    background-color: #eecfc6;
+    background-image: url(../../images/trash.svg);
+}
+
+.recipe-button_type_card-delete:hover {
+    background-color: #ab773c;
+    background-image: url(../../images/trash-hover.svg);
+}
+
+/*delete popup*/
+
+.recipe-button_type_popup-delete {
+    height: 40px;
+    width: 40px;
+    background-color: #eecfc6;
+    background-image: url(../../images/trash.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    top: 390px;
+    right: 25px;
+
+}
+
+.recipe-button_type_popup-delete:hover {
+    background-color: #ab773c;
+    background-image: url(../../images/trash-hover.svg);
+}
+
+@media screen and (max-width: 580px) {
+    .recipe-button_type_popup-item {
+        top: 250px;
+        height: 35px;
+        width: 35px;
+    }
+
+}

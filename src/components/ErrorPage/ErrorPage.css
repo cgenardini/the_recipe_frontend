@@ -1,0 +1,59 @@
+.error-page {
+    color: #eecfc6;
+}
+
+.error-page__title {
+    
+    font-size: 60px;
+}
+
+.error-page__error-code{
+    font-size: 30px;
+    margin: 0;
+}
+
+.error-page__error-name {
+    font-size: 25px;
+    margin: 0;
+}
+
+.error-page__error-message {
+    margin: 40px 30px 0;
+    font-size: 18px;
+}
+
+.error-page__link {
+    margin-top: 40px;
+    text-decoration: none;
+    color: #eecfc6;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #ab773c;
+    border: none;
+    height: 45px;
+    width: 100px;
+border-radius: 8px;
+padding: 0;
+}
+
+@media screen and (max-width: 580px) {
+
+    .error-page__title{
+        font-size: 40px;
+        margin: 10px 0 10px;
+    }
+
+    .error-page__error-code{
+        font-size: 25px;
+    }
+
+    .error-page__error-message{
+        margin: 10px 20px 0;
+    }
+
+    .error-page__link{
+        margin-top: 25px;
+    }
+
+
+}
