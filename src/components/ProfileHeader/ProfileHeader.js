@@ -5,7 +5,6 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function ProfileHeader({ handleSignOut }) {
   const { currentUser, userCards } = React.useContext(CurrentUserContext);
-  // const recipeNumber = "5";
 
   const recipeNumber = userCards.length;
 

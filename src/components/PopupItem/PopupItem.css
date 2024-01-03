@@ -3,7 +3,7 @@
     height: 610px;
     border-radius: 16px;
     background-color: #ffffff;
-    /* overflow: hidden; */
+  
     position: relative;
     overflow-y: auto;
     color: #ab773c;
@@ -17,11 +17,11 @@
  }
 
  .popup-item__image {
-    /* display: block; */
+    
     max-height: 400px;
     width: 498px;
     object-fit: cover;
-    /* transform: scale(1.1); */
+   
 
    }
 

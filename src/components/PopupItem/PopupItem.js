@@ -4,14 +4,12 @@ import Popup from "../Popup/Popup";
 import RecipeButton from "../RecipeButton/RecipeButton";
 import { SelectedCardContext } from "../../contexts/SelectedCardContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useEffect } from "react";
 
 function PopupItem({ onClose }) {
   const { selectedCard, handleSaveRecipeCard, handleRemoveRecipeCard } =
     React.useContext(SelectedCardContext);
   const { isLoggedIn, currentUser } = React.useContext(CurrentUserContext);
   const [isClicked, setIsClicked] = React.useState(false);
-  // const [isOwn, setIsOwn] = React.useState(false);
 
   const owners = selectedCard.owners;
 
