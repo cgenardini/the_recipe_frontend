@@ -6,11 +6,7 @@ function CardsGallery({ cards, galleryName }) {
     <ul className={`cards-gallery__list cards-gallery__list_${galleryName}`}>
       {cards.map((item) => {
         return (
-          <ItemCard
-            item={item}
-            key={item.id || item._id}
-            galleryName={galleryName}
-          />
+          <ItemCard item={item} key={item._id} galleryName={galleryName} />
         );
       })}
     </ul>

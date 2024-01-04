@@ -60,6 +60,7 @@ function App() {
 
   const handleCardPreview = (card) => {
     setActivePopup("preview");
+    console.log(card);
     setSelectedCard(card);
   };
 
@@ -79,9 +80,11 @@ function App() {
     getRecipe(encodedQuery)
       .then((data) => {
         handleStoreRecipeCards(data.results);
-        setCurrentSearchCards(data.results);
-        setSearchActive(true);
-        setSearchSuccessful(data.results.length > 0);
+        // if (!isLoggedIn) {
+        //   setCurrentSearchCards(data.results);
+        //   setSearchActive(true);
+        //   setSearchSuccessful(data.results.length > 0);
+        // }
       })
       .catch((err) => {
         console.log(err);
@@ -93,16 +96,29 @@ function App() {
   };
 
   const handleStoreRecipeCards = (cards) => {
-    cards.forEach((card) => {
+    const cardsPromise = cards.map((card) => {
       const { title, image, id, summary, sourceName, analyzedInstructions } =
         card;
 
-      storeItem({ title, image, id, summary, sourceName, analyzedInstructions })
-        .then((data) => {
-          return data;
-        })
-        .catch(console.error);
+      return storeItem({
+        title,
+        image,
+        id,
+        summary,
+        sourceName,
+        analyzedInstructions,
+      });
     });
+
+    Promise.all(cardsPromise)
+      .then((data) => {
+        setCurrentSearchCards(data);
+        setSearchActive(true);
+        setSearchSuccessful(data.length > 0);
+
+        return data;
+      })
+      .catch(console.error);
   };
 
   const handleSetUserCards = () => {
@@ -116,7 +132,16 @@ function App() {
 
   const handleSaveRecipeCard = (id) => {
     saveItem(id)
-      .then(() => {
+      .then((data) => {
+        setCurrentSearchCards((cards) => {
+          return cards.map((card) => {
+            if (card.recipeId === id) {
+              return { ...card, owners: data.owners };
+            }
+            return card;
+          });
+        });
+
         handleSetUserCards();
       })
       .catch(console.error);
@@ -125,6 +150,17 @@ function App() {
   const handleRemoveRecipeCard = (id) => {
     unsaveItem(id)
       .then(() => {
+        setCurrentSearchCards((cards) => {
+          return cards.map((card) => {
+            if (card.recipeId === id) {
+              const updateOwn = card.owners.filter(
+                (id) => id !== currentUser._id
+              );
+              return { ...card, owners: updateOwn };
+            }
+            return card;
+          });
+        });
         handleSetUserCards();
         handleClosePopup();
       })
@@ -170,7 +206,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (currentUser.name) {
       handleSetUserCards();
     }
   }, []);

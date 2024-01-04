@@ -1,8 +1,10 @@
 import "./ItemCard.css";
-import React, { useEffect } from "react";
+import React from "react";
 import RecipeButton from "../RecipeButton/RecipeButton";
 import { SelectedCardContext } from "../../contexts/SelectedCardContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { flushSync } from "react-dom";
+import { useEffect } from "react";
 
 function ItemCard({ item, galleryName }) {
   const summary = item.summary;
@@ -12,29 +14,62 @@ function ItemCard({ item, galleryName }) {
 
   const { handleCardPreview, handleSaveRecipeCard, handleRemoveRecipeCard } =
     React.useContext(SelectedCardContext);
-  const { isLoggedIn } = React.useContext(CurrentUserContext);
-  const [isClicked, setIsClicked] = React.useState(false);
+  const { isLoggedIn, currentUser } = React.useContext(CurrentUserContext);
 
+  const owners = item.owners;
+  const isOwn = owners.includes(currentUser._id);
+  const [isClicked, setIsClicked] = React.useState(isOwn);
   const selectCard = (e) => {
     e.preventDefault();
     handleCardPreview(item);
   };
 
-  const handleSaveAndDelete = (e) => {
-    e.preventDefault();
-    if (isClicked === false) {
+  React.useEffect(() => {
+    setIsClicked(isOwn);
+  }, [isOwn]);
+
+  // const handleSaveAndDelete = (e) => {
+  //   e.preventDefault();
+  //   if (isClicked === false) {
+  //     setIsClicked(true);
+  //     console.log(owners);
+  //     handleSaveRecipeCard(item.recipeId);
+  //   }
+  //   if (isClicked === true) {
+  //     setIsClicked(false);
+  //     console.log(owners);
+  //     handleRemoveRecipeCard(item.recipeId);
+  //   }
+  // };
+
+  // const handleDeleteFromProfile = (e) => {
+  //   e.preventDefault();
+  //   handleRemoveRecipeCard(item.recipeId);
+  // };
+
+  const handleSave = (e) => {
+    if (!isClicked) {
+      e.preventDefault();
+      handleSaveRecipeCard(item.recipeId);
       setIsClicked(true);
-      handleSaveRecipeCard(item.id);
     }
-    if (isClicked === true) {
+  };
+  const handleDelete = (e) => {
+    if (isClicked) {
+      e.preventDefault();
+      handleRemoveRecipeCard(item.recipeId);
       setIsClicked(false);
-      handleRemoveRecipeCard(item.id);
     }
   };
 
-  const handleDeleteFromProfile = (e) => {
-    e.preventDefault();
-    handleRemoveRecipeCard(item.recipeId);
+  const renderButton = () => {
+    if (isLoggedIn) {
+      const buttonName = isClicked ? "card-delete" : "card";
+      const onClick = isClicked ? handleDelete : handleSave;
+
+      return <RecipeButton onClick={onClick} buttonName={buttonName} />;
+    }
+    return;
   };
 
   return (
@@ -53,19 +88,8 @@ function ItemCard({ item, galleryName }) {
         <p className="card__description">{summaryString}</p>
         <h3 className="card__source">{item.sourceName}</h3>
       </div>
-      {isLoggedIn && galleryName === "home" && (
-        <RecipeButton
-          buttonName={isClicked ? "card-delete" : "card"}
-          onClick={handleSaveAndDelete}
-        />
-      )}
 
-      {galleryName === "profile" && (
-        <RecipeButton
-          buttonName={isClicked ? "card-delete_clicked" : "card-delete"}
-          onClick={handleDeleteFromProfile}
-        />
-      )}
+      {renderButton()}
     </li>
   );
 }

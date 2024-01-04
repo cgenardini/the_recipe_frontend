@@ -64,5 +64,5 @@ export const errors = {
 
 export const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://therecipe.make.com.ar"
+    ? "https://api.therecipe.make.com.ar"
     : "http://localhost:3001";

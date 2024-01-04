@@ -4,39 +4,45 @@ import Popup from "../Popup/Popup";
 import RecipeButton from "../RecipeButton/RecipeButton";
 import { SelectedCardContext } from "../../contexts/SelectedCardContext";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useEffect } from "react";
 
 function PopupItem({ onClose }) {
   const { selectedCard, handleSaveRecipeCard, handleRemoveRecipeCard } =
     React.useContext(SelectedCardContext);
   const { isLoggedIn, currentUser } = React.useContext(CurrentUserContext);
-  const [isClicked, setIsClicked] = React.useState(false);
-  // const [isOwn, setIsOwn] = React.useState(false);
 
   const owners = selectedCard.owners;
 
-  const isOwn = Array.isArray(owners) && owners.length > 0;
+  const isOwn = owners.includes(currentUser._id);
+  const [isClicked, setIsClicked] = React.useState(isOwn);
 
   const summary = selectedCard.summary;
   let regex = /<[^>]*>/g;
 
   const summaryString = summary.replaceAll(regex, "");
 
-  const handleSaveAndDelete = (e) => {
-    e.preventDefault();
-    if (isClicked === false) {
+  const handleSave = (e) => {
+    if (!isClicked) {
+      e.preventDefault();
+      handleSaveRecipeCard(selectedCard.recipeId);
       setIsClicked(true);
-      handleSaveRecipeCard(selectedCard.id);
     }
-    if (isClicked === true) {
+  };
+  const handleDelete = (e) => {
+    if (isClicked) {
+      e.preventDefault();
+      handleRemoveRecipeCard(selectedCard.recipeId);
       setIsClicked(false);
-      handleRemoveRecipeCard(selectedCard.id);
     }
   };
 
-  const handleDeleteFromProfile = (e) => {
-    e.preventDefault();
-    handleRemoveRecipeCard(selectedCard.recipeId);
+  const renderButton = () => {
+    if (isLoggedIn) {
+      const buttonName = isClicked ? "popup-delete" : "popup-item";
+      const onClick = isClicked ? handleDelete : handleSave;
+
+      return <RecipeButton onClick={onClick} buttonName={buttonName} />;
+    }
+    return;
   };
 
   return (
@@ -78,20 +84,7 @@ function PopupItem({ onClose }) {
           type="button"
           onClick={onClose}
         ></button>
-
-        {isLoggedIn && (
-          <RecipeButton
-            onClick={handleSaveAndDelete}
-            buttonName={isClicked ? `popup-delete` : `popup-item`}
-          />
-        )}
-
-        {isOwn && (
-          <RecipeButton
-            onClick={handleDeleteFromProfile}
-            buttonName="popup-delete"
-          />
-        )}
+        {renderButton()};
       </div>
     </Popup>
   );

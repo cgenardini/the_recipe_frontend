@@ -41,6 +41,7 @@ export const storeItem = ({
     if (data.error) {
       Promise.reject(`Error: ${data.error}`);
     }
+    return data;
   });
 };
 
